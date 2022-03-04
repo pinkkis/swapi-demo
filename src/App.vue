@@ -56,3 +56,15 @@ nav {
 	padding: 10px;
 }
 </style>
+
+<script setup>
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+onMounted(() => {
+	store.dispatch('getPeople');
+	store.dispatch('getPlanets');
+});
+</script>
