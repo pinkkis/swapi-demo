@@ -1,30 +1,58 @@
 <template>
 	<nav>
-		<router-link to="/">Home</router-link>|
-		<router-link to="/about">About</router-link>
+		<h3>Star Wars Api Demo</h3>
+		<router-link to="/">Home</router-link>
+		<router-link to="/people">People</router-link>
 	</nav>
-	<router-view />
+	<div class="app-container">
+		<router-view />
+	</div>
 </template>
 
 <style lang="scss">
 #app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
 	color: #2c3e50;
 }
 
+html,
+body {
+	padding: 0;
+	margin: 0;
+}
+</style>
+
+<style lang="scss" scoped>
 nav {
+	color: #ccc;
+
 	padding: 30px;
+	background-color: #000;
+
+	& > * {
+		margin-right: 15px;
+	}
+
+	h3 {
+		display: inline-block;
+		margin-right: 30px;
+	}
 
 	a {
 		font-weight: bold;
-		color: #2c3e50;
+		color: #ccc;
+		text-decoration: none;
 
 		&.router-link-exact-active {
-			color: #42b983;
+			color: #dceb16;
+			text-decoration: underline;
 		}
 	}
+}
+
+.app-container {
+	padding: 10px;
 }
 </style>
