@@ -1,5 +1,7 @@
 # swapi-demo
 
+Demo application to test vue 3 with composition.
+
 ## Project setup
 
 ```
