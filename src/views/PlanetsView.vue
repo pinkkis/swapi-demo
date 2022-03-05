@@ -19,7 +19,6 @@
 			:data="planetsFiltered"
 			:paginated="true"
 			:per-page="perPage"
-			:current-page="currentPage"
 			:pagination-simple="true"
 			:loading="loading"
 			:striped="true"
@@ -46,7 +45,11 @@
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.rotation_period }}
+				{{
+					props.row.rotation_period === Number.MIN_SAFE_INTEGER
+						? 'unknown'
+						: format(props.row.rotation_period)
+				}}
 			</o-table-column>
 
 			<o-table-column
@@ -56,17 +59,25 @@
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.orbital_period }}
+				{{
+					props.row.orbital_period === Number.MIN_SAFE_INTEGER
+						? 'unknown'
+						: format(props.row.orbital_period)
+				}}
 			</o-table-column>
 
 			<o-table-column
 				field="diameter"
-				label="Diameter (km)"
+				label="Diameter"
 				sortable
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.diameter }}
+				{{
+					props.row.diameter === Number.MIN_SAFE_INTEGER
+						? 'unknown'
+						: format(props.row.diameter)
+				}}
 			</o-table-column>
 
 			<o-table-column
@@ -85,7 +96,11 @@
 				numeric
 				v-slot="props"
 			>
-				{{ format(props.row.population) }}
+				{{
+					props.row.population === Number.MIN_SAFE_INTEGER
+						? 'unknown'
+						: format(props.row.population)
+				}}
 			</o-table-column>
 
 			<o-table-column
@@ -153,6 +168,10 @@ section {
 	.o-table__pagination {
 		padding: 10px 0;
 	}
+
+	.o-table__td {
+		vertical-align: middle;
+	}
 }
 </style>
 
@@ -180,10 +199,7 @@ const planetsFiltered = computed(() =>
 		: planets.value
 );
 const loading = computed(() => store.getters.loading);
-
-const currentPage = ref(1);
 const perPage = ref(15);
-
 const nameFilter = ref('');
 
 const openModal = (planet) => {

@@ -1,5 +1,8 @@
 export const people = (state) => {
 	return (
+		// if we can match a planet to the homeworld listed on the person,
+		// then replace it with the planet object
+
 		state.people?.map((person) => ({
 			...person,
 			homeworld:
@@ -11,6 +14,7 @@ export const people = (state) => {
 };
 export const planets = (state) => {
 	return (
+		// and vice versa, but residents is an array
 		state.planets?.map((planet) => ({
 			...planet,
 			residents:

@@ -20,7 +20,6 @@
 			:data="peopleFiltered"
 			:paginated="true"
 			:per-page="perPage"
-			:current-page="currentPage"
 			:pagination-simple="true"
 			:loading="loading"
 			:striped="true"
@@ -47,7 +46,11 @@
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.height }}
+				{{
+					props.row.height === Number.MIN_SAFE_INTEGER
+						? 'unknown'
+						: format(props.row.height)
+				}}
 			</o-table-column>
 
 			<o-table-column
@@ -57,7 +60,11 @@
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.mass }}
+				{{
+					props.row.mass === Number.MIN_SAFE_INTEGER
+						? 'unknown'
+						: format(props.row.mass)
+				}}
 			</o-table-column>
 
 			<o-table-column
@@ -123,6 +130,10 @@ section {
 	.o-table__pagination {
 		padding: 10px 0;
 	}
+
+	.o-table__td {
+		vertical-align: middle;
+	}
 }
 </style>
 
@@ -131,6 +142,8 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useProgrammatic } from '@oruga-ui/oruga-next';
 import PlanetModalVue from '@/components/PlanetModal.vue';
+
+const { format } = new Intl.NumberFormat();
 
 const store = useStore();
 const { oruga } = useProgrammatic();
@@ -144,16 +157,16 @@ const peopleFiltered = computed(() =>
 					person.name
 						.toLocaleLowerCase()
 						.includes(nameFilter.value.toLocaleLowerCase())
+				// can't get eslint, prettier and volar to agree on formatting here :(
 				// eslint-disable-next-line no-mixed-spaces-and-tabs
 		  )
 		: people.value
 );
 
-const currentPage = ref(1);
 const perPage = ref(15);
-
 const nameFilter = ref('');
 
+// open a modal with the whole entity as a prop
 const openModal = (planet) => {
 	oruga.modal.open({
 		component: PlanetModalVue,

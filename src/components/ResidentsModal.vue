@@ -21,7 +21,7 @@
 .container {
 	min-width: 300px;
 	max-width: 80vw;
-
+	padding: 0 10px;
 	font-size: 1.3rem;
 
 	header {

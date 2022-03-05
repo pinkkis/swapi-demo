@@ -7,18 +7,19 @@ export class ApiBaseService {
 		this.resource = resource;
 	}
 
+	// fetch a given url, with given optional config
 	async getUrl(url, config = {}) {
-		try {
-			console.debug(`[Swapi ${this.resource}] request: `, url, config);
-			return await fetch(url, config).then(
-				async (response) => await response.json()
+		const response = await fetch(url, config);
+		if (!response.ok) {
+			throw new Error(
+				`Error fetching ${this.resource} - ${response.statusText}`
 			);
-		} catch (error) {
-			this.handleErrors(error);
-			return Promise.reject(error);
 		}
+
+		return await response.json();
 	}
 
+	// fetch all results from a paginated api end point following the 'next' property url
 	async getAll() {
 		const allResults = [];
 		let hasNext = true;
@@ -30,15 +31,19 @@ export class ApiBaseService {
 			try {
 				result = await this.getUrl(requestUrl);
 			} catch (error) {
+				// retry once
 				this.handleErrors(error);
 				canRetry = false;
 				continue;
 			}
 
-			if (result?.results) {
+			// add results into local array
+			if (result?.results && Array.isArray(result.results)) {
 				allResults.push(...result.results);
 			}
 
+			// if there's no more next url, stop
+			// otherwise update the request url to the next url
 			if (!result?.next) {
 				hasNext = false;
 			} else {
