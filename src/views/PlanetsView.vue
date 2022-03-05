@@ -1,23 +1,22 @@
 <template>
 	<section>
-		<h1>People</h1>
+		<h1>Planets</h1>
 		<p>
-			These are the characters listed in the first 7 Star Wars movies. You
-			can filter them by name, and see details on them and their home
-			planet.
+			These are the planets listed in the first 7 Star Wars movies. You
+			can filter them by name and see the residents of a given planet.
 		</p>
 
 		<o-input
-			placeholder="Search Person Name..."
+			placeholder="Search Planet Name..."
 			v-model.trim="nameFilter"
-			icon="account-search"
+			icon="search-web"
 			iconPack="mdi"
 			size="medium"
 		/>
 
 		<o-table
 			class="data-table"
-			:data="peopleFiltered"
+			:data="planetsFiltered"
 			:paginated="true"
 			:per-page="perPage"
 			:current-page="currentPage"
@@ -36,42 +35,73 @@
 				label="Name"
 				sortable
 				v-slot="props"
-				width="250"
+				width="200"
 			>
 				{{ props.row.name }}
 			</o-table-column>
 
 			<o-table-column
-				field="height"
-				label="Height (cm)"
+				field="rotation_period"
+				label="Rotation Period"
 				sortable
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.height }}
+				{{ props.row.rotation_period }}
 			</o-table-column>
 
 			<o-table-column
-				field="mass"
-				label="Mass (kg)"
+				field="orbital_period"
+				label="Orbital Period"
 				sortable
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.mass }}
+				{{ props.row.orbital_period }}
 			</o-table-column>
 
 			<o-table-column
-				field="homeworld.name"
-				label="Planet Name"
+				field="diameter"
+				label="Diameter (km)"
 				sortable
+				numeric
+				v-slot="props"
+			>
+				{{ props.row.diameter }}
+			</o-table-column>
+
+			<o-table-column
+				field="climate"
+				label="Climate"
+				sortable
+				v-slot="props"
+			>
+				{{ props.row.climate }}
+			</o-table-column>
+
+			<o-table-column
+				field="population"
+				label="Population"
+				sortable
+				numeric
+				v-slot="props"
+			>
+				{{ props.row.population }}
+			</o-table-column>
+
+			<o-table-column
+				field="residents"
+				label="Residents"
+				sortable
+				numeric
 				v-slot="props"
 			>
 				<o-button
 					variant="primary"
 					outlined
-					@click="openModal(props.row.homeworld)"
-					>{{ props.row.homeworld?.name ?? 'unknown' }}</o-button
+					icon-left="account"
+					@click="openModal(props.row)"
+					>{{ props.row.residents?.length }}</o-button
 				>
 			</o-table-column>
 
@@ -131,24 +161,24 @@ section {
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useProgrammatic } from '@oruga-ui/oruga-next';
-import PlanetModalVue from '@/components/PlanetModal.vue';
+import ResidentsModalVue from '@/components/ResidentsModal.vue';
 
-const store = useStore();
 const { oruga } = useProgrammatic();
+const store = useStore();
 
-const people = computed(() => store.getters.people);
-const loading = computed(() => store.getters.loading);
-const peopleFiltered = computed(() =>
+const planets = computed(() => store.getters.planets);
+const planetsFiltered = computed(() =>
 	nameFilter.value.length
-		? people.value.filter(
-				(person) =>
-					person.name
+		? planets.value.filter(
+				(planet) =>
+					planet.name
 						.toLocaleLowerCase()
 						.includes(nameFilter.value.toLocaleLowerCase())
 				// eslint-disable-next-line no-mixed-spaces-and-tabs
 		  )
-		: people.value
+		: planets.value
 );
+const loading = computed(() => store.getters.loading);
 
 const currentPage = ref(1);
 const perPage = ref(15);
@@ -157,7 +187,7 @@ const nameFilter = ref('');
 
 const openModal = (planet) => {
 	oruga.modal.open({
-		component: PlanetModalVue,
+		component: ResidentsModalVue,
 		props: { planet },
 		canCancel: true,
 	});

@@ -1,8 +1,11 @@
 <template>
 	<nav>
-		<h3>Star Wars Api Demo</h3>
-		<router-link to="/">Home</router-link>
-		<router-link to="/people">People</router-link>
+		<div class="container">
+			<img src="./assets/star_wars_logo.svg" alt="Star Wars Logo" />
+			<router-link to="/">Home</router-link>
+			<router-link to="/people">People</router-link>
+			<router-link to="/planets">Planets</router-link>
+		</div>
 	</nav>
 	<div class="app-container">
 		<router-view />
@@ -10,6 +13,13 @@
 </template>
 
 <style lang="scss">
+:root {
+	--color-yellow: #dceb16;
+	--header-bg: #000;
+	--header-color: #ccc;
+	--page-bg: #fefefe;
+}
+
 #app {
 	font-family: Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
@@ -21,19 +31,36 @@ html,
 body {
 	padding: 0;
 	margin: 0;
+
+	background-color: var(--page-bg);
 }
 </style>
 
 <style lang="scss" scoped>
 nav {
-	color: #ccc;
+	.container {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
 
-	padding: 30px;
-	background-color: #000;
+		height: 100%;
+		max-width: 1024px;
+		margin: 0 auto;
 
-	& > * {
-		margin-right: 15px;
+		& > * {
+			margin-right: 15px;
+		}
+
+		img {
+			height: 45px;
+		}
 	}
+
+	color: var(--header-color);
+
+	height: 75px;
+	background-color: var(--header-bg);
 
 	h3 {
 		display: inline-block;
@@ -46,14 +73,16 @@ nav {
 		text-decoration: none;
 
 		&.router-link-exact-active {
-			color: #dceb16;
+			color: var(--color-yellow);
 			text-decoration: underline;
 		}
 	}
 }
 
 .app-container {
-	padding: 10px;
+	padding: 15px 0;
+	max-width: 1024px;
+	margin: 0 auto;
 }
 </style>
 

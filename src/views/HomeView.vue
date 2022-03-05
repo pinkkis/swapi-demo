@@ -18,21 +18,32 @@
 				To get started, navigate to the
 				<router-link to="/people">People</router-link> page.
 			</p>
+
+			<p>The data is courtesy of Swapi:</p>
+			<blockquote>
+				The Star Wars API, or "swapi" (Swah-pee) is the world's first
+				quantified and programmatically-accessible data source for all
+				the data from the Star Wars canon universe!
+				<br />
+				<small> &copy; Paul Hallett &amp; Juriyu Bura</small>
+			</blockquote>
 		</div>
 	</div>
 </template>
 
-<script setup></script>
-
 <style lang="scss" scoped>
 .home {
-	max-width: 900px;
-	margin: 0 auto;
 	display: flex;
 	flex-direction: row;
 
 	.content {
 		flex: auto;
+	}
+
+	blockquote {
+		border-left: 5px solid var(--color-yellow);
+		border-radius: 5px;
+		padding-left: 10px;
 	}
 }
 </style>

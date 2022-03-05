@@ -1,7 +1,7 @@
 import { API_BASE } from '@/constants';
-import { SwapiService } from './swapi.service';
+import { ApiBaseService } from './api-base.service';
 
 export const api = {
-	people: new SwapiService(API_BASE, 'people'),
-	planets: new SwapiService(API_BASE, 'planets'),
+	people: new ApiBaseService(API_BASE, 'people'),
+	planets: new ApiBaseService(API_BASE, 'planets'),
 };

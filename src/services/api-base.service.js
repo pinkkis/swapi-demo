@@ -1,4 +1,4 @@
-export class SwapiService {
+export class ApiBaseService {
 	baseUrl = '';
 	resource = '';
 

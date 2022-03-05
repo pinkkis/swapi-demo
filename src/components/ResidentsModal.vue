@@ -1,20 +1,16 @@
 <template>
 	<div class="container">
 		<header>
-			<h2>
-				{{ planet.name }}
-			</h2>
+			<h2>Residents of {{ planet.name }}</h2>
 		</header>
-		<dl>
-			<dt>Diameter</dt>
-			<dd>{{ planet.diameter }}km</dd>
-
-			<dt>Climate</dt>
-			<dd>{{ planet.climate }}</dd>
-
-			<dt>Population</dt>
-			<dd>{{ planet.population }}</dd>
-		</dl>
+		<ul v-if="planet.residents.length > 0">
+			<li v-for="resident in planet.residents" :key="resident.url">
+				{{ resident.name }}
+			</li>
+		</ul>
+		<div v-else>
+			<p><em>No residents</em></p>
+		</div>
 		<footer>
 			<o-button type="button" @click="$emit('close')">Close</o-button>
 		</footer>
@@ -27,14 +23,6 @@
 	max-width: 80vw;
 
 	font-size: 1.3rem;
-
-	dt {
-		font-weight: bold;
-	}
-
-	dd {
-		margin-bottom: 1em;
-	}
 
 	header {
 		h2 {
