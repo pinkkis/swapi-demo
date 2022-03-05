@@ -13,6 +13,9 @@
 			icon="account-search"
 			iconPack="mdi"
 			size="medium"
+			:icon-right="nameFilter?.length ? 'close' : undefined"
+			icon-right-clickable
+			@icon-right-click="nameFilter = ''"
 		/>
 
 		<o-table
