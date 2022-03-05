@@ -15,16 +15,26 @@ export class ApiBaseService {
 			);
 		} catch (error) {
 			this.handleErrors(error);
+			return Promise.reject(error);
 		}
 	}
 
 	async getAll() {
 		const allResults = [];
 		let hasNext = true;
+		let canRetry = true;
 		let requestUrl = `${this.baseUrl}/${this.resource}/`;
 
-		while (hasNext) {
-			const result = await this.getUrl(requestUrl);
+		while (hasNext && canRetry) {
+			let result;
+			try {
+				result = await this.getUrl(requestUrl);
+			} catch (error) {
+				this.handleErrors(error);
+				canRetry = false;
+				continue;
+			}
+
 			if (result?.results) {
 				allResults.push(...result.results);
 			}

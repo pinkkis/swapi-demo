@@ -13,7 +13,7 @@
 			<dd>{{ planet.climate }}</dd>
 
 			<dt>Population</dt>
-			<dd>{{ planet.population }}</dd>
+			<dd>{{ format(planet.population) }}</dd>
 		</dl>
 		<footer>
 			<o-button type="button" @click="$emit('close')">Close</o-button>
@@ -55,4 +55,6 @@
 defineProps({
 	planet: Object,
 });
+
+const { format } = new Intl.NumberFormat();
 </script>

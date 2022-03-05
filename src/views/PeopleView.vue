@@ -23,7 +23,6 @@
 			:current-page="currentPage"
 			:pagination-simple="true"
 			:loading="loading"
-			:detail-key="url"
 			:striped="true"
 			default-sort="name"
 			aria-next-label="Next page"

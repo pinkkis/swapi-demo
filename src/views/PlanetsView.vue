@@ -22,7 +22,6 @@
 			:current-page="currentPage"
 			:pagination-simple="true"
 			:loading="loading"
-			:detail-key="url"
 			:striped="true"
 			default-sort="name"
 			aria-next-label="Next page"
@@ -86,7 +85,7 @@
 				numeric
 				v-slot="props"
 			>
-				{{ props.row.population }}
+				{{ format(props.row.population) }}
 			</o-table-column>
 
 			<o-table-column
@@ -162,6 +161,8 @@ import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useProgrammatic } from '@oruga-ui/oruga-next';
 import ResidentsModalVue from '@/components/ResidentsModal.vue';
+
+const { format } = new Intl.NumberFormat();
 
 const { oruga } = useProgrammatic();
 const store = useStore();
